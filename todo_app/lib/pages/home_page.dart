@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/components/dialog_box.dart';
 import '../components/todo_tile.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +12,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // text controller
+  final _controller = TextEditingController();
+
   // list of todo tasks
   List toDoList = [
     ["Make Tutorial", false],
@@ -24,10 +28,35 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  // save new task
+  void saveNewTask() {
+    setState(() {
+      toDoList.add(
+        [_controller.text, false]
+      );
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
+  }
+
+  // create new task
+  void createNewtask() {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return DialogBox(
+          txController: _controller,
+          onSave: saveNewTask,
+          onCancel: () => Navigator.of(context).pop(),
+          );
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green[200],
+
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.green,
@@ -38,6 +67,7 @@ class _HomePageState extends State<HomePage> {
           'TO DO APP'),
         elevation: 10,
       ),
+
       body: ListView.builder(
         itemCount: toDoList.length,
         itemBuilder: (context, index) {
@@ -46,7 +76,16 @@ class _HomePageState extends State<HomePage> {
             taskCompleted: toDoList[index][1], 
             onChanged: (value) => checkBoxOnChanged(value, index), 
             );
-        })
+        }),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: createNewtask,
+        backgroundColor: Colors.green,
+        child: const Icon(
+            Icons.add,
+            color: Colors.white
+          )
+        ),
     );
   }
 }
