@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       db.toDoList[idx][1] = !db.toDoList[idx][1];
     });
-    db.loadData();
+    db.updateDataBase();
   }
 
   // save new task
