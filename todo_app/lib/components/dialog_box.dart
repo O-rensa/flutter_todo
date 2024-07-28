@@ -3,10 +3,10 @@ import 'package:todo_app/components/alert_button.dart';
 
 class DialogBox extends StatelessWidget {
   final TextEditingController txController;
-  VoidCallback onSave;
-  VoidCallback onCancel;
+  final VoidCallback onSave;
+  final VoidCallback onCancel;
 
-  DialogBox({
+  const DialogBox({
     super.key,
     required this.txController,
     required this.onSave,
